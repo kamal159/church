@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "895989706867",
+    "project_id": "church-f4056",
+    "storage_bucket": "church-f4056.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895989706867:android:2b25519094e27c2ad2ba06",
+        "android_client_info": {
+          "package_name": "com.oliver.chruch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895989706867-5s16b7dok3ja0qn4of6rpslvu9lms7nu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgqTTzKvzjqJ_AIcCk9ywDcjZflI_GYts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895989706867-5s16b7dok3ja0qn4of6rpslvu9lms7nu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

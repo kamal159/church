@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>943272623297-h9hc6i96faco3orcp6b6igi77t344086.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.943272623297-h9hc6i96faco3orcp6b6igi77t344086</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBffbva1raWK8TMZn3AI7dOaJ3Ih44DoS0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>943272623297</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.oliver.chruch</string>
+	<key>PROJECT_ID</key>
+	<string>chruch-66931</string>
+	<key>STORAGE_BUCKET</key>
+	<string>chruch-66931.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:943272623297:ios:aa89a3e58c9313647ae840</string>
+</dict>
+</plist>
