@@ -136,17 +136,38 @@ Future<bool?> toastShow({
 enum ToastStates { success, error, warning }
 
 chooseToastColor(ToastStates state) {
-  Color color;
-  switch (state) {
-    case ToastStates.success:
-      color = Colors.green;
-      break;
-    case ToastStates.error:
-      color = Colors.red;
-      break;
-    case ToastStates.warning:
-      color = Colors.amber;
-      break;
-  }
-  return color;
+  const Map<ToastStates, MaterialColor> toastColors = {
+    ToastStates.success: Colors.green,
+    ToastStates.warning: Colors.amber,
+    ToastStates.error: Colors.red,
+  };
+  return toastColors[state];
+}
+
+void showBanner(BuildContext context, Widget content, String text) {
+  ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+
+  ScaffoldMessenger.of(context).showMaterialBanner(
+    MaterialBanner(
+      content: content,
+      actions: [
+        TextButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white)),
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+            },
+            child: Text(text, style: Theme.of(context).textTheme.titleMedium))
+      ],
+      backgroundColor: AppColorsLight.primary,
+      elevation: 5,
+      contentTextStyle: Theme.of(context)
+          .textTheme
+          .titleMedium!
+          .copyWith(color: Colors.white),
+    ),
+  );
+  Future.delayed(const Duration(seconds: 2)).then((value) {
+    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+  });
 }

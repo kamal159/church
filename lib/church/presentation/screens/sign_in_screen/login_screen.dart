@@ -23,21 +23,21 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLoginSignupScreen(
+    return DefaultSignupSignInScreen(
       content: BlocProvider(
         create: (context) => sl<SignInBloc>(),
         child: BlocConsumer<SignInBloc, SignInState>(
           listener: (context, state) {
-            if (state.requestState == RequestState.success){
+            if (state.requestState == RequestState.success) {
               if (state.isEmailVerified) {
                 navigateTo(context, const LayoutScreen());
               } else {
-                BlocProvider.of<SignInBloc>(context).failedToLoginState();
                 navigateTo(context, const FailedToLoginScreen());
               }
             }
           },
-          listenWhen: (previous, current) => previous.requestState != current.requestState,
+          listenWhen: (previous, current) =>
+          previous.requestState != current.requestState,
           builder: (context, state) {
             var cubit = BlocProvider.of<SignInBloc>(context);
             return Form(
@@ -48,6 +48,7 @@ class SignInScreen extends StatelessWidget {
                 children: [
                   const Spacer(),
                   customTextFormField(
+                    textDirection: TextDirection.ltr,
                     context: context,
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
@@ -61,19 +62,23 @@ class SignInScreen extends StatelessWidget {
                     },
                   ),
                   customTextFormField(
-                      context: context,
-                      controller: passwordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      labelText: 'الباسورد',
-                      prefixIcon: Icons.password_outlined,
-                      validator: (val) {
-                        if (val == null || val.isEmpty || val.length < 6) return text('الباسورد مكون من 6 رموز علي الاقل');
-                        return null;
-                      },
-                      onFieldSubmitted: (val) {
-                        _formKey.currentState!.validate();
-                      },
-                      suffixIcon: !state.visible ? Icons.visibility_off : Icons.visibility,
+                    textDirection: TextDirection.ltr,
+                    context: context,
+                    controller: passwordController,
+                    keyboardType: TextInputType.visiblePassword,
+                    labelText: 'الباسورد',
+                    prefixIcon: Icons.password_outlined,
+                    validator: (val) {
+                      if (val == null || val.isEmpty || val.length < 6) {
+                        return text('الباسورد مكون من 6 رموز علي الاقل');
+                      }
+                      return null;
+                    },
+                    onFieldSubmitted: (val) {
+                      _formKey.currentState!.validate();
+                    },
+                    suffixIcon: !state.visible ? Icons.visibility_off : Icons
+                        .visibility,
 
                     obscureText: state.visible,
                     suffixIconOnPressed: () {
@@ -114,12 +119,14 @@ class SignInScreen extends StatelessWidget {
 
                   const Spacer(),
                   customButton(
+                    widget: state.requestState == RequestState.loading
+                        ? const CircularProgressIndicator( color: Colors.white,): null,
                     context: context,
                     onTap: () {
-                      if (_formKey.currentState!.validate()){
-                        cubit.add(SignInUserEvent(email: emailController.text, password: passwordController.text));
+                      if (_formKey.currentState!.validate()) {
+                        cubit.add(SignInUserEvent(email: emailController.text,
+                            password: passwordController.text));
                       }
-
                     },
                     text: 'تسجيل الدخول',
                   ),
@@ -131,6 +138,7 @@ class SignInScreen extends StatelessWidget {
       ),
     );
   }
+
   String text(String text) => 'برجاء ادخال $text';
 
 }

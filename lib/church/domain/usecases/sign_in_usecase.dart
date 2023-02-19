@@ -1,9 +1,10 @@
-import 'package:chruch/church/data/models/user_model.dart';
-import 'package:chruch/church/domain/repository/base_movies_repository.dart';
+import 'package:chruch/church/domain/repository/base_church_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import '../../../core/error/failure.dart';
 import '../../../core/usecase/base_usecase.dart';
+import '../../data/models/login_model.dart';
+import '../../data/models/user_model.dart';
 
 class SignInUseCase extends BaseUseCase<UserModel, SignInUseCaseParameters> {
   final BaseChurchRepository baseChurchRepository;

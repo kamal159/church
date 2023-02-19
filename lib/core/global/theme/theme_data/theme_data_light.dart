@@ -6,26 +6,52 @@ import '../app_color/app_color_light.dart';
 
 final ThemeData lightTheme = ThemeData(
   appBarTheme: const AppBarTheme(
+      centerTitle: true,
+      backgroundColor: AppColorsLight.appBarBackground,
+      foregroundColor: AppColorsLight.appBarForeground,
       systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.dark)),
-
+  tabBarTheme: TabBarTheme(
+    unselectedLabelColor: Colors.white70,
+    overlayColor: MaterialStateProperty.all(Colors.white12),
+    dividerColor: Colors.transparent,
+    indicatorColor: Colors.white,
+    labelColor: Colors.white,
+  ),
   textTheme: const TextTheme().copyWith(
     titleMedium: const TextStyle().copyWith(
       color: AppColorsLight.darkText,
       fontFamily: FontsFamily.inter,
     ),
-    bodyMedium: const TextStyle().copyWith(color: AppColorsLight.darkText),
-    titleLarge: const TextStyle().copyWith(color: AppColorsLight.darkText),
-    titleSmall: const TextStyle().copyWith(color: AppColorsLight.darkText),
-    labelMedium: const TextStyle().copyWith(color: AppColorsLight.darkText),
+    bodyMedium: const TextStyle().copyWith(
+      color: AppColorsLight.darkText,
+      fontFamily: FontsFamily.inter,
+
+    ),
+    titleLarge: const TextStyle().copyWith(
+      color: AppColorsLight.darkText,
+      fontFamily: FontsFamily.inter,
+
+    ),
+    titleSmall: const TextStyle().copyWith(
+      color: AppColorsLight.darkText,
+      fontFamily: FontsFamily.inter,
+
+    ),
+    labelMedium: const TextStyle().copyWith(
+      color: AppColorsLight.darkText,
+      fontFamily: FontsFamily.inter,
+
+    ),
     headlineMedium: const TextStyle().copyWith(
       color: AppColorsLight.lightText,
       fontFamily: FontsFamily.inter,
       fontWeight: FontWeight.bold,
     ),
   ),
-  colorScheme: ThemeData().colorScheme.copyWith(primary: AppColorsLight.primary, secondary: AppColorsLight.secondary),
+  colorScheme: ThemeData().colorScheme.copyWith(
+      primary: AppColorsLight.primary, secondary: AppColorsLight.secondary),
   dialogTheme: DialogTheme(
     backgroundColor: AppColorsLight.scaffoldBackgroundColor,
     surfaceTintColor: AppColorsLight.scaffoldBackgroundColor,

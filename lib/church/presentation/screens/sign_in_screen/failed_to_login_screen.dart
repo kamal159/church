@@ -7,7 +7,7 @@ class FailedToLoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLoginSignupScreen(
+    return DefaultSignupSignInScreen(
       content: Column(
         children: [
           const Spacer(),

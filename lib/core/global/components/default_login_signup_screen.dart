@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import '../../utils/app_constance.dart';
 import '../../../generated/assets.dart';
 
-class DefaultLoginSignupScreen extends StatelessWidget {
+class DefaultSignupSignInScreen extends StatelessWidget {
   final Widget content;
 
-  const DefaultLoginSignupScreen({super.key, required this.content});
+  const DefaultSignupSignInScreen({super.key, required this.content});
 
   @override
   Widget build(BuildContext context) {

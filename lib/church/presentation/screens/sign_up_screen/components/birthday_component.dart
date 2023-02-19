@@ -18,22 +18,29 @@ class BirthDayComponent extends StatelessWidget {
       keyboardType: TextInputType.datetime,
       readOnly: true,
       validator: (val) {
+        if (val!.isEmpty) return text('تاريخ الميلاد');
         return null;
       },
       onTap: () async {
         DateTime? pickedDate = await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(1950),
-            //DateTime.now() - not to allow to choose before today.
-            lastDate: DateTime(2100));
-
+          context: context,
+          cancelText: 'الغاء',
+          confirmText: 'تم',
+          firstDate: DateTime(int.parse(
+              DateFormat('yyyy').format(DateTime.now())) -
+              120),
+          initialDate: DateTime.now(),
+          lastDate: DateTime.now(),
+        );
         if (pickedDate != null) {
-          SignUpBloc.formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+          SignUpBloc.formattedDate =
+              DateFormat('yyyy-MM-dd').format(pickedDate);
           dateInputController.text = SignUpBloc.formattedDate!;
         }
       },
       prefixIcon: Icons.date_range_outlined,
     );
   }
+  String text(text) => 'برجاء التاكد من $text';
+
 }

@@ -1,7 +1,9 @@
 import 'package:chruch/core/utils/enums.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../domain/entities/school_grades.dart';
 
 class SignUpState extends Equatable {
   final String uid;
@@ -17,12 +19,23 @@ class SignUpState extends Equatable {
 
   final int lastSelectGender;
   final XFile? image;
+  final GeoPoint? position;
+  final List<String> fathers;
+  final String fatherName;
+
+  final String schoolName;
+  final int selectSchool;
+  final int level;
+  final int selectLevel;
 
   const SignUpState({
     this.uid = '',
     this.requestState = RequestState.waiting,
     this.errorMessage = '',
-
+    this.schoolName = 'nursery',
+    this.selectSchool = 0,
+    this.level = 2,
+    this.selectLevel = 0,
     this.visible = false,
     this.isServant = false,
     this.lastSelectSchool = -1,
@@ -31,6 +44,10 @@ class SignUpState extends Equatable {
     this.isExpanded = false,
     this.lastSelectGender = -1,
     this.image,
+    this.position,
+
+    this.fathers = const [],
+    this.fatherName = '',
   });
 
   SignUpState copyWith({
@@ -45,6 +62,14 @@ class SignUpState extends Equatable {
     bool? isExpanded,
     int? lastSelectGender,
     XFile? image,
+    GeoPoint? position,
+    List<String>? fathers,
+    String? fatherName,
+
+    String? schoolName,
+    int? selectSchool,
+    int? level,
+    int? selectLevel,
   }) =>
       SignUpState(
         uid: uid ?? this.uid,
@@ -58,6 +83,15 @@ class SignUpState extends Equatable {
         isExpanded: isExpanded ?? this.isExpanded,
         lastSelectGender: lastSelectGender ?? this.lastSelectGender,
         image: image ?? this.image,
+        position: position ?? this.position,
+
+        fathers: fathers ?? this.fathers,
+        fatherName: fatherName ?? this.fatherName,
+
+        schoolName: schoolName ?? this.schoolName,
+        selectSchool: selectSchool ?? this.selectSchool,
+        level: level??this.level,
+        selectLevel: selectLevel??this.selectLevel,
       );
 
   @override
@@ -72,6 +106,13 @@ class SignUpState extends Equatable {
     isExpanded,
     lastSelectGender,
     image,
+    position,
+    fathers,
+    fatherName,
+    schoolName,
+    selectSchool,
+    level,
+    selectLevel,
   ];
 }
 

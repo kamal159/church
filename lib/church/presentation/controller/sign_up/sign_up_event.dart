@@ -1,13 +1,17 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 
 abstract class SignUpEvent extends Equatable {
   const SignUpEvent();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class SignUpUserEvent extends SignUpEvent {
   final String? uid;
-  final String? img;
+  final XFile img;
   final String? cover;
   final String name;
   final String email;
@@ -16,13 +20,19 @@ class SignUpUserEvent extends SignUpEvent {
   final String fatherName;
   final String date;
   final String? bio;
-  final String gender;
+  final bool isMale;
   final String? school;
+  final int? level;
   final bool isEmailVerified;
   final bool isServant;
+  final GeoPoint position;
+  final String address;
+  final String userPath;
 
   const SignUpUserEvent({
-    this.img,
+    required this.img,
+    required this.address,
+    required this.position,
     this.uid,
     this.cover,
     required this.name,
@@ -32,28 +42,35 @@ class SignUpUserEvent extends SignUpEvent {
     required this.fatherName,
     required this.date,
     this.bio,
-    required this.gender,
+    required this.isMale,
     this.school,
+    this.level,
     this.isEmailVerified = false,
     required this.isServant,
+    required this.userPath,
   });
 
   @override
-  List<Object> get props => [
-    uid!,
-    img!,
-    cover!,
-    name,
-    email,
-    phone,
-    password,
-    fatherName,
-    date,
-    bio!,
-    gender,
-    school!,
-    isEmailVerified,
-    isServant,
-  ];
+  List<Object?> get props => [
+        uid,
+        address,
+        img,
+        position,
+        cover,
+        name,
+        email,
+        phone,
+        password,
+        fatherName,
+        date,
+        bio,
+        isMale,
+        school,
+        level,
+        isEmailVerified,
+        isServant,
+        userPath,
+      ];
 }
 
+class GetFatherEvent extends SignUpEvent {}

@@ -6,14 +6,15 @@ import '../../../controller/sign_up/sign_up_bloc.dart';
 import '../../../controller/sign_up/sign_up_state.dart';
 
 class PasswordComponent extends StatelessWidget {
-  final TextEditingController passwordController = TextEditingController();
 
-  final TextEditingController passwordAgainController = TextEditingController();
-
-  PasswordComponent({super.key});
+  const PasswordComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController passwordController = TextEditingController();
+
+    final TextEditingController passwordAgainController = TextEditingController();
+
     return BlocBuilder<SignUpBloc, SignUpState>(
       buildWhen: (previous, current) => previous.visible != current.visible,
       builder: (context, state) {
@@ -21,6 +22,7 @@ class PasswordComponent extends StatelessWidget {
         return Column(
           children: [
             customTextFormField(
+              textDirection: TextDirection.ltr,
               context: context,
               controller: passwordController,
               labelText: 'الباسورد',
@@ -41,6 +43,7 @@ class PasswordComponent extends StatelessWidget {
               obscureText: !state.visible,
             ),
             customTextFormField(
+              textDirection: TextDirection.ltr,
               context: context,
               controller: passwordAgainController,
               labelText: 'الباسورد مرة اخرى',

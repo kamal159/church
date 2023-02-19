@@ -1,93 +1,93 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
 import 'dart:async';
-import 'dart:io';
+import 'package:chruch/core/global/components/components.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:chruch/church/domain/entities/school_grades.dart';
 import 'package:chruch/church/presentation/controller/sign_up/sign_up_event.dart';
 import 'package:chruch/church/presentation/controller/sign_up/sign_up_state.dart';
 import 'package:chruch/core/utils/enums.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-
-import '../../../../core/global/components/components.dart';
-import '../../../../core/network/local/cache_helper.dart';
-import '../../../../core/utils/app_constance.dart';
+import '../../../../core/usecase/base_usecase.dart';
+import '../../../domain/usecases/get_fathers_usecase.dart';
 import '../../../domain/usecases/sign_up_usecase.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final SignUpUseCase signUpUseCase;
-
-  static String? formattedDate;
-  static String? password;
-  static Position? position;
+  final GetFathersUseCase getFathersUseCase;
 
   SignUpBloc(
     this.signUpUseCase,
+    this.getFathersUseCase,
   ) : super(const SignUpState()) {
     on<SignUpUserEvent>(_signUp);
+    on<GetFatherEvent>(_getFather);
   }
+
+  static String? formattedDate;
+  static String? password;
 
   int lastSelectGender = -1;
   static List<bool> genderSelections = List.generate(2, (index) => false);
 
   static List<String> levelGrades = [
-    'الاول',
-    'الثاني',
-    'الثالث',
-    'الرابع',
-    'الخامس',
-    'السادس',
-    'السابع',
-    'الثامن',
+    'اولي',
+    'ثانية',
+    'ثالثة',
+    'رابعة',
+    'خامسة',
+    'سادسة',
+    'سابعة',
   ];
 
-  // static Map<String, int> schoolGrades = {
-  //   'ابتدائية': 6,
-  //   'اعدادي': 3,
-  //   'ثانوية': 3,
-  //   'شباب': 7,
-  //   'خريجين': 0,
-  //   'شباب (سمعان الشيخ)': 0,
-  // };
-
   static bool? isMale;
+
   static List<SchoolGrade> schoolGradeModel = [
     SchoolGrade(
+      levelCount: 2,
+      arNameGrade: 'كي جي',
+      enNameGrade: 'KG',
+    ),
+    SchoolGrade(
       levelCount: 6,
-      nameGrade: 'ابتدائية',
+      arNameGrade: 'ابتدائية',
+      enNameGrade: 'primary',
     ),
     SchoolGrade(
       levelCount: 3,
-      nameGrade: 'اعدادي',
+      arNameGrade: 'اعدادي',
+      enNameGrade: 'preparatory',
     ),
     SchoolGrade(
       levelCount: 3,
-      nameGrade: 'ثانوية',
+      arNameGrade: 'ثانوية',
+      enNameGrade: 'secondary',
     ),
     SchoolGrade(
       levelCount: 7,
-      nameGrade: 'شباب',
+      arNameGrade: 'جامعة',
+      enNameGrade: 'collegiate',
     ),
     SchoolGrade(
       levelCount: 0,
-      nameGrade: 'خريجين',
+      arNameGrade: 'خريجين',
+      enNameGrade: 'graduate',
     ),
     SchoolGrade(
       levelCount: 0,
-      nameGrade: 'شباب (سمعان الشيخ)',
+      arNameGrade: 'شباب (سمعان الشيخ)',
+      enNameGrade: 'senior graduate',
     ),
   ];
 
   static List<bool> schoolSelections =
       List.generate(levelGrades.length, (index) => false);
 
-  bool suffixIconVisible = false;
-
   Future<FutureOr<void>> _signUp(
       SignUpUserEvent event, Emitter<SignUpState> emit) async {
-    state.copyWith(requestState: RequestState.loading);
+    emit(state.copyWith(requestState: RequestState.loading));
     final result = await signUpUseCase(SignUpUseCaseParameters(
       uid: event.uid,
       name: event.name,
@@ -97,16 +97,15 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       phone: event.phone,
       password: event.password,
       school: event.school,
-      gender: event.gender,
+      isMale: event.isMale,
       isServant: event.isServant,
+      img: event.img.path,
+      position: event.position,
+      address: event.address,
+      userPath: event.userPath,
     ));
     result.fold(
       (l) {
-        print('${l.message} l.message');
-        toastShow(
-            text: l.message.toString().split(']').last,
-            state: ToastStates.error);
-
         emit(state.copyWith(
             requestState: RequestState.error, errorMessage: l.message));
       },
@@ -116,54 +115,54 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     );
   }
 
-  static int lastSelectSchool = -1;
+  // static int lastSelectSchool = -1;
 
-  selectSchool(int index) {
-    if (lastSelectSchool == -1) {
-      lastSelectSchool = index;
-      schoolSelections[index] = true;
-    } else if (index != lastSelectSchool) {
-      schoolSelections[lastSelectSchool] = false;
-      lastSelectSchool = index;
-      schoolSelections[index] = true;
-    }
-    emit(state.copyWith(
-      lastSelectSchool: lastSelectSchool,
-    ));
-  }
+  // selectSchool(int index) {
+  //   if (lastSelectSchool == -1) {
+  //     lastSelectSchool = index;
+  //     schoolSelections[index] = true;
+  //   } else if (index != lastSelectSchool) {
+  //     schoolSelections[lastSelectSchool] = false;
+  //     lastSelectSchool = index;
+  //     schoolSelections[index] = true;
+  //   }
+  //   emit(state.copyWith(
+  //     lastSelectSchool: lastSelectSchool,
+  //   ));
+  // }
+  //
+  // selectOtherSchool(int index) {
+  //   if (schoolGradeModel[lastExpandedGrade].isExpanded) {
+  //     schoolGradeModel[lastExpandedGrade].isExpanded = false;
+  //   }
+  //   if (lastSelectSchool != -1) {
+  //     schoolSelections[lastSelectSchool] = false;
+  //     lastSelectSchool = -1;
+  //   }
+  //   schoolGradeModel[index].isExpanded = true;
+  //   lastExpandedGrade = index;
+  //   emit(state.copyWith(
+  //     lastSelectSchool: lastSelectSchool,
+  //     lastExpandedGrade: lastExpandedGrade,
+  //   ));
+  // }
 
-  selectOtherSchool(int index) {
-    if (schoolGradeModel[lastExpandedGrade].isExpanded) {
-      schoolGradeModel[lastExpandedGrade].isExpanded = false;
-    }
-    if (lastSelectSchool != -1) {
-      schoolSelections[lastSelectSchool] = false;
-      lastSelectSchool = -1;
-    }
-    schoolGradeModel[index].isExpanded = true;
-    lastExpandedGrade = index;
-    emit(state.copyWith(
-      lastSelectSchool: lastSelectSchool,
-      lastExpandedGrade: lastExpandedGrade,
-    ));
-  }
+  // static int lastExpandedGrade = 0;
 
-  static int lastExpandedGrade = 0;
-
-  changeExpanded(int index, bool isExpanded) {
-    schoolGradeModel[lastExpandedGrade].isExpanded = false;
-    schoolGradeModel[index].isExpanded = !isExpanded;
-    lastExpandedGrade = index;
-    if (lastSelectSchool != -1) {
-      schoolSelections[lastSelectSchool] = false;
-      lastSelectSchool = -1;
-    }
-    emit(state.copyWith(
-      isExpanded: !isExpanded,
-      lastExpandedGrade: index,
-      lastSelectSchool: -1,
-    ));
-  }
+  // changeExpanded(int index, bool isExpanded) {
+  //   schoolGradeModel[lastExpandedGrade].isExpanded = false;
+  //   schoolGradeModel[index].isExpanded = !isExpanded;
+  //   lastExpandedGrade = index;
+  //   if (lastSelectSchool != -1) {
+  //     schoolSelections[lastSelectSchool] = false;
+  //     lastSelectSchool = -1;
+  //   }
+  //   emit(state.copyWith(
+  //     isExpanded: !isExpanded,
+  //     lastExpandedGrade: index,
+  //     lastSelectSchool: -1,
+  //   ));
+  // }
 
   changeVisiblePassword() {
     emit(state.copyWith(visible: !state.visible));
@@ -208,6 +207,78 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     final ImagePicker picker = ImagePicker();
     image = await picker.pickImage(source: ImageSource.gallery) ?? image;
     emit(state.copyWith(image: image));
+  }
+
+  Future<void> determinePosition() async {
+    final bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    final position = await Geolocator.getCurrentPosition();
+    GeoPoint geoPoint = GeoPoint(position.latitude, position.longitude);
+
+    emit(state.copyWith(position: geoPoint));
+  }
+
+  Future<FutureOr<void>> _getFather(
+      GetFatherEvent event, Emitter<SignUpState> emit) async {
+    final result = await getFathersUseCase(const NoParameters());
+    result.fold((l) {
+      toastShow(
+          text: 'حدث خطأ يرجي الاتصال بالانترنت!', state: ToastStates.error);
+    }, (r) {
+      emit(state.copyWith(fathers: r, fatherName: r[0]));
+    });
+  }
+
+  static String? fatherName;
+
+  changeFatherName(String val) {
+    fatherName = val;
+    emit(state.copyWith(fatherName: val));
+  }
+
+  static int? selectLevel;
+
+  changeGradeSchool(int level) {
+    selectLevel = level;
+    print('schoolGrade.levelCousssnt ${selectLevel}');
+
+    emit(state.copyWith(selectLevel: level));
+  }
+
+  static String? schoolName;
+  static int? selectSchool;
+
+  changeNameOfSchool(int index) {
+    final schoolGrade = schoolGradeModel[index];
+    print('schoolGrade.levelCount ${selectLevel}');
+
+    schoolName = schoolGrade.enNameGrade;
+    selectSchool = index;
+    selectLevel = 0;
+
+    emit(state.copyWith(
+        schoolName: schoolGrade.enNameGrade,
+        selectSchool: index,
+        level: schoolGrade.levelCount,
+        selectLevel: 0));
   }
 }
 

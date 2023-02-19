@@ -1,8 +1,8 @@
-import 'package:chruch/church/domain/repository/base_movies_repository.dart';
+import 'package:chruch/church/domain/repository/base_church_repository.dart';
 import 'package:dartz/dartz.dart';
 import '../../../core/error/failure.dart';
 import '../../../core/usecase/base_usecase.dart';
-import '../entities/user.dart';
+import '../entities/verified_user.dart';
 
 class SignUpUseCase extends BaseUseCase<String, SignUpUseCaseParameters> {
   final BaseChurchRepository baseChurchRepository;
@@ -25,12 +25,14 @@ class SignUpUseCaseParameters extends User {
     required super.password,
     required super.fatherName,
     required super.date,
-    required super.gender,
+    required super.isMale,
     required super.school,
     required super.isServant,
     super.subscribe,
-    super.img,
+    required super.img,
     super.cover,
     super.bio,
+    required super.position,
+    required super.address, required super.userPath,
   });
 }
