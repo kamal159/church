@@ -22,4 +22,11 @@ class CacheHelper {
     if (value is bool) return await sharedPreferences!.setBool(key, value);
     return await sharedPreferences!.setDouble(key, value);
   }
+
+  static dynamic removeData({
+    required String key,
+  }) {
+    return sharedPreferences!.remove(key);
+  }
+
 }

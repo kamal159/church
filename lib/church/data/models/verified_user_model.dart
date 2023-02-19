@@ -1,6 +1,7 @@
 import 'package:chruch/church/domain/entities/verified_user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class VerifiedUserModel extends User {
+class VerifiedUserModel extends VerifiedUser {
   const VerifiedUserModel({
     required super.img,
     required super.uid,
@@ -45,6 +46,30 @@ class VerifiedUserModel extends User {
             ? List<String>.from(json['subscribe']).map((e) => e).toList()
             : null,
         position: json['position'],
+        address: json['address'],
+      );
+
+
+factory VerifiedUserModel.fromDB(Map<String, dynamic> json) =>
+      VerifiedUserModel(
+        uid: json['uid'],
+        img: json['img'],
+        cover: json['cover'],
+        name: json['name'],
+        email: json['email'],
+        phone: json['phone'],
+        password: json['password'],
+        fatherName: json['fatherName'],
+        date: json['date'],
+        bio: json['bio'],
+        isMale: json['isMale'] == 1,
+        school: json['school'],
+        isEmailVerified: json['isEmailVerified'] == 1,
+        isServant: json['isServant'] == 1,
+        isAdmin: json['isAdmin'] == 1,
+        subscribe: json['subscribe'] != null ? List<String>.from(json['subscribe'].split(','))
+            : null,
+        position: GeoPoint(json['latitude'].toDouble(), json['longitude'].toDouble()),
         address: json['address'],
         userPath: json['userPath'],
       );

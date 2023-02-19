@@ -1,3 +1,4 @@
+import 'package:chruch/core/utils/user_Contstance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,10 +32,11 @@ class _LayoutScreenState extends State<LayoutScreen>
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<LayoutBloc>()..add(GetUserDataEvent()),
+      create: (context) => sl<LayoutBloc>(),
       child: BlocConsumer<LayoutBloc, LayoutState>(
         listener: (context, state) {},
         builder: (context, state) {
+          print(UserConstance.name);
           return Scaffold(
             body: DefaultTabController(
               length: 3,

@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../core/global/components/components.dart';
+import '../../../core/utils/user_Contstance.dart';
 import '../../domain/usecases/sign_in_usecase.dart';
 import '../../domain/usecases/sign_up_usecase.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -62,6 +63,7 @@ class ChurchRemoteDataSource extends BaseChurchRemoteDataSource {
       isServant: parameters.isServant,
       position: parameters.position,
       address: parameters.address,
+      userPath: parameters.userPath,
     );
 
     await FirebaseFirestore.instance
@@ -160,7 +162,7 @@ class ChurchRemoteDataSource extends BaseChurchRemoteDataSource {
     final DocumentSnapshot<Map<String, dynamic>> userData = await FirebaseFirestore
         .instance
         .collection('users')
-        .doc(AppConstance.uId)
+        .doc(UserConstance.uid)
         .get()
         .catchError((e) {
       throw ServerException(errorMessage: e.toString());
@@ -170,7 +172,7 @@ class ChurchRemoteDataSource extends BaseChurchRemoteDataSource {
     final DocumentSnapshot<Map<String, dynamic>> verifiedUser = await FirebaseFirestore
         .instance
         .collection('verified users/${userModel.userPath}')
-        .doc(AppConstance.uId)
+        .doc(UserConstance.uid)
         .get()
         .catchError((e) {
       throw ServerException(errorMessage: e.toString());

@@ -89,6 +89,7 @@ class Assets {
   static const String utilsAppString = 'lib/core/utils/app_string.dart';
   static const String utilsEnums = 'lib/core/utils/enums.dart';
   static const String utilsIconConstance = 'lib/core/utils/icon_constance.dart';
+  static const String utilsUserContstance = 'lib/core/utils/user_Contstance.dart';
   static const String utilsWidgetConstance = 'lib/core/utils/widget_constance.dart';
 
 }

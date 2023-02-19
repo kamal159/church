@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../../../../core/global/components/components.dart';
 import '../../../../core/utils/app_string.dart';
+import '../../../../core/utils/user_Contstance.dart';
 import '../../../../generated/assets.dart';
 import '../sign_in_screen/login_screen.dart';
 
@@ -31,9 +32,9 @@ class _SplashScreenState extends State<SplashScreen>
       if (_controller.value >= 0.4) {
         navigateTo(
             context,
-            AppConstance.uId == null
+            UserConstance.uid == null
                 ? const GetStartedScreen()
-                : const LayoutScreen());
+                : const LayoutScreen(), until: false);
         _controller.reverse();
       }
       if (!_controller.isAnimating) {
@@ -81,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen>
                 animatedTexts: [
                   TypewriterAnimatedText(AppString.appName,
                       textStyle: Theme.of(context).textTheme.headlineMedium,
-                      speed: Duration(milliseconds: 180)),
+                      speed: const Duration(milliseconds: 180)),
                 ],
               ),
             ),

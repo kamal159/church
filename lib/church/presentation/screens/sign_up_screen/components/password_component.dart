@@ -11,9 +11,9 @@ class PasswordComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController(text: SignUpBloc.password);
 
-    final TextEditingController passwordAgainController = TextEditingController();
+    final TextEditingController passwordAgainController = TextEditingController(text: SignUpBloc.password);
 
     return BlocBuilder<SignUpBloc, SignUpState>(
       buildWhen: (previous, current) => previous.visible != current.visible,

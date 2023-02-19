@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:translator/translator.dart';
 
+import '../../../church/data/models/verified_user_model.dart';
+import '../../utils/user_Contstance.dart';
 import '../theme/app_color/app_color_light.dart';
 
 void navigateTo(BuildContext context, Widget screen, {bool until = true}) {
@@ -15,6 +18,8 @@ void navigateTo(BuildContext context, Widget screen, {bool until = true}) {
 
 Widget customButton({
   required BuildContext context,
+  Color color = AppColorsLight.primary,
+  double? fontSize,
   required String text,
   Widget? widget,
   required void Function()? onTap,
@@ -27,14 +32,14 @@ Widget customButton({
           height: 55,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: AppColorsLight.primary),
+              color: color),
           child: Center(
               child: widget ??
                   Text(text,
                       style: Theme.of(context)
                           .textTheme
                           .titleMedium!
-                          .copyWith(color: Colors.white)))),
+                          .copyWith(color: Colors.white, fontSize: fontSize)))),
     ),
   );
 }
@@ -170,4 +175,39 @@ void showBanner(BuildContext context, Widget content, String text) {
   Future.delayed(const Duration(seconds: 2)).then((value) {
     ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
   });
+}
+
+
+Future<void> getUserDB() async {
+  final Database db = await openDatabase('church.db');
+  final List<Map<String, Object?>> data = await db.query('user_data');
+  await db.close();
+  final VerifiedUserModel verifiedUserModel = VerifiedUserModel.fromDB(data[0]);
+  UserConstance.uid = verifiedUserModel.uid!;
+  UserConstance.img = verifiedUserModel.img;
+  UserConstance.cover = verifiedUserModel.cover??'';
+  UserConstance.name = verifiedUserModel.name;
+  UserConstance.email = verifiedUserModel.email;
+  UserConstance.phone = verifiedUserModel.phone;
+  UserConstance.password = verifiedUserModel.password;
+  UserConstance.fatherName = verifiedUserModel.fatherName;
+  UserConstance.date = verifiedUserModel.date;
+  UserConstance.bio = verifiedUserModel.bio??'';
+  UserConstance.isMale = verifiedUserModel.isMale;
+  UserConstance.school = verifiedUserModel.school??'';
+  UserConstance.level = verifiedUserModel.level??'';
+  UserConstance.isEmailVerified = verifiedUserModel.isEmailVerified;
+  UserConstance.isServant = verifiedUserModel.isServant;
+  UserConstance.subscribe = verifiedUserModel.subscribe??[];
+  UserConstance.isAdmin = verifiedUserModel.isAdmin;
+  UserConstance.position = verifiedUserModel.position;
+  UserConstance.address = verifiedUserModel.address;
+}
+deleteDB() async {
+  final Database db = await openDatabase('church.db');
+  await db.execute('DROP TABLE IF EXISTS user_data');
+  await db.close();
+  // final databasePath = join(await getDatabasesPath(), 'church.db');
+  // await deleteDatabase(databasePath);
+  print('DONE DROP TABLE');
 }

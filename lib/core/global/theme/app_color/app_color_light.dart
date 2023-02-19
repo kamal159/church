@@ -12,5 +12,5 @@ class AppColorsLight {
   static final Color scaffoldBackgroundColor = Colors.grey.shade100;
   static const Color buttonColor = Colors.black87;
   static const Color iconThemeColor = Colors.black87;
-
+  static const Color backgroundButtonColor = Color(0xffCE4646);
 }

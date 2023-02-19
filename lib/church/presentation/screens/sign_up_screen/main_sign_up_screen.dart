@@ -111,7 +111,7 @@ class _MainSignUpScreenState extends State<MainSignUpScreen> {
                         prefixIcon: Icons.phone_outlined),
                     SelectFatherComponent(),
                     const PasswordComponent(),
-                    BirthDayComponent(),
+                    const BirthDayComponent(),
                     customTextFormField(
                         context: context,
                         controller: addressController,
@@ -227,7 +227,7 @@ class _MainSignUpScreenState extends State<MainSignUpScreen> {
                                 img: SignUpBloc.image!,
                                 address: addressController.text,
                                 userPath: !SignUpBloc.isServant
-                                    ? '${SignUpBloc.schoolName}/${SignUpBloc.selectLevel!}st'
+                                    ? '${SignUpBloc.schoolName}/${SignUpBloc.selectLevel! + 1}st'
                                     : 'servants/all',
                               ),
                             );

@@ -30,7 +30,7 @@ class SignInScreen extends StatelessWidget {
           listener: (context, state) {
             if (state.requestState == RequestState.success) {
               if (state.isEmailVerified) {
-                navigateTo(context, const LayoutScreen());
+                navigateTo(context, const LayoutScreen(), until: false);
               } else {
                 navigateTo(context, const FailedToLoginScreen());
               }

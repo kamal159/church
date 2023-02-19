@@ -18,7 +18,6 @@ class AppConstance {
     }
   }
 
-  static String? uId;
 
   static Widget get circularProgressIndicator => !_isCupertino()
       ? CircularProgressIndicator(color: AppColorsLight.scaffoldBackgroundColor)

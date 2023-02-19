@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-class User extends Equatable {
+class VerifiedUser extends Equatable {
   final String? uid;
   final String img;
   final String? cover;
@@ -23,7 +23,7 @@ class User extends Equatable {
   final String address;
   final String? userPath;
 
-  const User({
+  const VerifiedUser({
     required this.address,
     this.isAdmin = false,
     required this.position,
@@ -42,7 +42,7 @@ class User extends Equatable {
     required this.school,
     this.isEmailVerified = false,
     required this.isServant,
-    this.userPath,
+    required this.userPath,
     this.level,
   });
 

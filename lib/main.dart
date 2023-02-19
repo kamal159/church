@@ -1,5 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:chruch/church/presentation/screens/get_started_screen/get_started_screen.dart';
+import 'church/presentation/screens/get_started_screen/get_started_screen.dart';
 import 'package:chruch/church/presentation/screens/layout_screen/layout_screen.dart';
 import 'package:chruch/church/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +11,7 @@ import 'core/global/theme/theme_data/theme_data_light.dart';
 import 'core/network/local/cache_helper.dart';
 import 'core/services/sevices_locator.dart';
 import 'core/utils/app_constance.dart';
+import 'core/utils/user_Contstance.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -82,7 +83,8 @@ Future<void> main() async {
       statusBarIconBrightness: Brightness.light,
     ),
   );
-  AppConstance.uId = CacheHelper.getData(key: 'uId');
+  UserConstance.isUserDataSaved = CacheHelper.getData(key: 'isUserDataSaved');
+  if (UserConstance.isUserDataSaved??false) await getUserDB();
   runApp(const MyApp());
 }
 
@@ -95,7 +97,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Church',
       theme: lightTheme,
-      home: const GetStartedScreen(),
+      home: const SplashScreen(),
     );
   }
 }

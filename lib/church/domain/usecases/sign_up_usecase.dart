@@ -16,7 +16,7 @@ class SignUpUseCase extends BaseUseCase<String, SignUpUseCaseParameters> {
   }
 }
 
-class SignUpUseCaseParameters extends User {
+class SignUpUseCaseParameters extends VerifiedUser {
   const SignUpUseCaseParameters({
     required super.uid,
     required super.name,
@@ -33,6 +33,7 @@ class SignUpUseCaseParameters extends User {
     super.cover,
     super.bio,
     required super.position,
-    required super.address, required super.userPath,
+    required super.address,
+    required super.userPath,
   });
 }

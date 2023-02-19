@@ -10,7 +10,7 @@ import '../../../controller/sign_up/sign_up_state.dart';
 class SelectFatherComponent extends StatelessWidget {
   SelectFatherComponent({Key? key}) : super(key: key);
   final TextEditingController fatherOfConfessionController =
-      TextEditingController();
+      TextEditingController(text: SignUpBloc.fatherName);
 
   @override
   Widget build(BuildContext context) {

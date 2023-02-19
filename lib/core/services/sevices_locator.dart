@@ -20,8 +20,8 @@ class ServicesLocator {
   void init (){
     /// Bloc
     sl.registerFactory(() => SignUpBloc(sl(), sl()));
-    sl.registerFactory(() => SignInBloc(sl()));
-    sl.registerFactory(() => LayoutBloc(sl()));
+    sl.registerFactory(() => SignInBloc(sl(), sl()));
+    sl.registerFactory(() => LayoutBloc());
     sl.registerFactory(() => SettingsBloc());
     // sl.registerFactory(() => MovieDetailBloc(sl(), sl()));
     // sl.registerFactory(() => LoginBloc(sl(), sl()));

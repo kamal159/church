@@ -5,12 +5,13 @@ import 'package:intl/intl.dart';
 import '../../../../../core/global/components/components.dart';
 
 class BirthDayComponent extends StatelessWidget {
-  final TextEditingController dateInputController = TextEditingController();
 
-  BirthDayComponent({Key? key}) : super(key: key);
+  const BirthDayComponent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController dateInputController = TextEditingController(text: SignUpBloc.formattedDate);
+
     return customTextFormField(
       context: context,
       controller: dateInputController,
