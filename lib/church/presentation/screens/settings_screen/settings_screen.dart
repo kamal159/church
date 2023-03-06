@@ -1,4 +1,9 @@
+import 'dart:io';
+
+import 'package:chruch/church/presentation/screens/settings_screen/update_user_password_screen/update_user_password_screen.dart';
+import 'package:chruch/church/presentation/screens/settings_screen/update_user_profile_image/update_user_profile_image_screen.dart';
 import 'package:chruch/core/network/local/cache_helper.dart';
+import 'package:chruch/core/utils/widget_constance.dart';
 import 'package:path/path.dart';
 import 'package:chruch/church/presentation/screens/get_started_screen/get_started_screen.dart';
 import 'package:chruch/core/global/components/components.dart';
@@ -9,7 +14,8 @@ import 'package:iconly/iconly.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../../../core/global/theme/app_color/app_color_light.dart';
 import '../../../../core/services/sevices_locator.dart';
-import '../../../../core/utils/user_Contstance.dart';
+import '../../../../core/utils/enums.dart';
+import '../../../../core/utils/user_constance.dart';
 import '../../controller/settings/settings_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -18,11 +24,15 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(UserConstance.uid);
+    print('hellllllllloooo');
     return SingleChildScrollView(
       child: BlocProvider(
+        lazy: false,
         create: (context) => sl<SettingsBloc>(),
-        child: BlocBuilder<SettingsBloc, SettingsState>(
+        child: BlocConsumer<SettingsBloc, SettingsState>(
+          listener: (context, state) {
+            // print(state.requestUserProfileImageState);
+          },
           builder: (context, state) {
             SettingsBloc cubit = BlocProvider.of<SettingsBloc>(context);
             return Padding(
@@ -34,7 +44,9 @@ class SettingsScreen extends StatelessWidget {
                     alignment: Alignment.bottomRight,
                     children: [
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          navigateTo(context, const ViewImage());
+                        },
                         child: Container(
                           width: 150,
                           height: 150,
@@ -42,11 +54,14 @@ class SettingsScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(100),
                           ),
                           clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child:  Hero(
+                          tag: 'img',
                           child: CachedNetworkImage(
                             width: MediaQuery.of(context).size.width,
                             imageUrl: UserConstance.img,
                             fit: BoxFit.cover,
                           ),
+                        ),
                         ),
                       ),
                       Container(
@@ -65,14 +80,17 @@ class SettingsScreen extends StatelessWidget {
                         ),
                         child: IconButton(
                           onPressed: () {
-                            // cubit.imagePicker();
-                          },
-                          icon: const Icon(IconlyBroken.image, color: AppColorsLight.lightText),
+                            cubit.imagePicker().then((value) {
+                              if (SettingsBloc.image != null) navigateTo(context, UpdateUserProfileImageScreen(pickedFile: SettingsBloc.image,));
+                            });
+                            },
+                          icon: const Icon(IconlyBroken.image,
+                              color: AppColorsLight.lightText),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
                   customButtonSettings(
                     context: context,
                     text: 'تعديل بياناتك',
@@ -81,7 +99,9 @@ class SettingsScreen extends StatelessWidget {
                   customButtonSettings(
                     context: context,
                     text: 'تعديل الباسورد',
-                    onTap: () {},
+                    onTap: () {
+                      navigateTo(context, const UpdateUserPasswordScreen());
+                    },
                   ),
                   customButtonSettings(
                     context: context,
@@ -89,15 +109,19 @@ class SettingsScreen extends StatelessWidget {
                     onTap: () {},
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 60 ,vertical: 30),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 60, vertical: 30),
                     child: customButton(
-                      text: 'تسجيل الخروج',
-                      context: context,
-                      onTap: ()async{
-                        await cubit.logout(context);
-                      },
-                      color: AppColorsLight.darkText
-                    ),
+                        text: 'تسجيل الخروج',
+                        context: context,
+                        onTap: () async {
+                            await CacheHelper.removeData(key: 'isUserDataSaved');
+                            await CacheHelper.removeData(key: 'firstDB').then((value) {
+                              UserConstance.isEmailVerified = false;
+                              navigateTo(context, const GetStartedScreen(), until: false);
+                            });
+                        },
+                        color: AppColorsLight.darkText),
                   ),
                 ],
               ),
@@ -107,12 +131,32 @@ class SettingsScreen extends StatelessWidget {
       ),
     );
   }
-
-
   Widget customButtonSettings({context, text, onTap}) => customButton(
       fontSize: 20,
       context: context,
       text: text,
       onTap: onTap,
       color: AppColorsLight.backgroundButtonColor);
+}
+
+
+class ViewImage extends StatelessWidget {
+  const ViewImage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(UserConstance.name),),
+      body: Center(
+        child: Hero(
+          tag: 'img',
+          child: CachedNetworkImage(
+            width: MediaQuery.of(context).size.width,
+            imageUrl: UserConstance.img,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
 }

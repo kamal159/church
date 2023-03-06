@@ -1,4 +1,4 @@
-import '../../domain/entities/user_position.dart';
+import '../../../domain/entities/user_data_entities/user_position.dart';
 
 class UserPositionModel extends UserPosition {
   const UserPositionModel({

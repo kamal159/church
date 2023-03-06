@@ -4,11 +4,14 @@ import 'package:chruch/church/presentation/screens/layout_screen/layout_screen.d
 import 'package:chruch/core/global/theme/app_color/app_color_light.dart';
 import 'package:chruch/core/utils/app_constance.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import '../../../../core/global/components/components.dart';
+import '../../../../core/services/sevices_locator.dart';
 import '../../../../core/utils/app_string.dart';
-import '../../../../core/utils/user_Contstance.dart';
+import '../../../../core/utils/user_constance.dart';
 import '../../../../generated/assets.dart';
+import '../../controller/splash/splash_bloc.dart';
 import '../sign_in_screen/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -32,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (_controller.value >= 0.4) {
         navigateTo(
             context,
-            UserConstance.uid == null
+            !UserConstance.isUserDataSaved
                 ? const GetStartedScreen()
                 : const LayoutScreen(), until: false);
         _controller.reverse();
@@ -51,53 +54,54 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColorsLight.primary,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white12,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Lottie.asset(
-                height: 140,
-                controller: _controller,
-                Assets.lottieChurchSplash,
-                onLoaded: (composition) {
-                  _controller
-                    ..duration = composition.duration
-                    ..forward();
-                },
-              ),
-            ),
-            const SizedBox(height: 20),
-            DefaultTextStyle(
-              style: const TextStyle(
-                fontSize: 30.0,
-              ),
-              child: AnimatedTextKit(
-                animatedTexts: [
-                  TypewriterAnimatedText(AppString.appName,
-                      textStyle: Theme.of(context).textTheme.headlineMedium,
-                      speed: const Duration(milliseconds: 180)),
+    return BlocProvider(
+      create: (context) => sl<SplashBloc>()..add(GetUserTableDataBaseEvent()),
+      lazy: false,
+      child: BlocBuilder<SplashBloc, SplashState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: AppColorsLight.primary,
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white12,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Lottie.asset(
+                      height: 140,
+                      controller: _controller,
+                      Assets.lottieChurchSplash,
+                      onLoaded: (composition) {
+                        _controller
+                          ..duration = composition.duration
+                          ..forward();
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  DefaultTextStyle(
+                    style: const TextStyle(
+                      fontSize: 30.0,
+                    ),
+                    child: AnimatedTextKit(
+                      animatedTexts: [
+                        TypewriterAnimatedText(AppString.appName,
+                            textStyle: Theme
+                                .of(context)
+                                .textTheme
+                                .headlineMedium,
+                            speed: const Duration(milliseconds: 180)),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-            // Text(
-            //   AppString.appName,
-            //   style: Theme.of(context).textTheme.headlineMedium,
-            // ),
-            // Center(
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(30.0),
-            //     child:  AppConstance.circularProgressIndicator,
-            //   ),
-            // ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

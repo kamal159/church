@@ -1,4 +1,4 @@
-import '../../domain/entities/unverified_user.dart';
+import '../../../domain/entities/user_data_entities/unverified_user.dart';
 
 class UnVerifiedUserModel extends UnVerifiedUser {
   const UnVerifiedUserModel({

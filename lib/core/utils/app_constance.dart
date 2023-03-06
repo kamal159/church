@@ -5,24 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppConstance {
-  static bool _isCupertino() {
-    switch (defaultTargetPlatform) {
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.linux:
-      case TargetPlatform.windows:
-        return false;
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
-        return true;
-    }
-  }
-
-
-  static Widget get circularProgressIndicator => !_isCupertino()
-      ? CircularProgressIndicator(color: AppColorsLight.scaffoldBackgroundColor)
-      : CupertinoActivityIndicator(
-          color: AppColorsLight.scaffoldBackgroundColor);
+static bool onBoarding = true;
 }
 
 class AppConstanceScreenSize {

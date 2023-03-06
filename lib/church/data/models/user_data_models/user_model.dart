@@ -1,9 +1,12 @@
-import 'package:chruch/church/domain/entities/user.dart';
+
+import '../../../domain/entities/user_data_entities/user.dart';
 
 class UserModel extends User {
   const UserModel({
     required super.uid,
     required super.userPath,
+    required super.isServant,
+    required super.isFather,
     super.isEmailVerified,
   });
 
@@ -11,6 +14,8 @@ class UserModel extends User {
         uid: json['uid'],
         userPath: json['userPath'],
         isEmailVerified: json['isEmailVerified'],
+        isServant: json['isServant'],
+        isFather: json['isFather'],
       );
 
   Map<String, dynamic> toMap() {
@@ -18,6 +23,8 @@ class UserModel extends User {
       'uid': uid,
       'userPath': userPath,
       'isEmailVerified': isEmailVerified,
+      'isFather': isFather,
+      'isServant': isServant,
     };
   }
 }

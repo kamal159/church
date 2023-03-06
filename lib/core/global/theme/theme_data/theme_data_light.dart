@@ -11,7 +11,7 @@ final ThemeData lightTheme = ThemeData(
       foregroundColor: AppColorsLight.appBarForeground,
       systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark)),
+          statusBarIconBrightness: Brightness.light)),
   tabBarTheme: TabBarTheme(
     unselectedLabelColor: Colors.white70,
     overlayColor: MaterialStateProperty.all(Colors.white12),

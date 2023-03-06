@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconly/iconly.dart';
 
 import '../../../../../core/global/components/components.dart';
 import '../../../controller/sign_up/sign_up_bloc.dart';
@@ -34,7 +35,7 @@ class PasswordComponent extends StatelessWidget {
               onChanged: (val) {
                 SignUpBloc.password = passwordController.text;
               },
-              prefixIcon: Icons.password_outlined,
+              prefixIcon: IconlyBroken.password,
               suffixIcon:
                   state.visible ? Icons.visibility_off : Icons.visibility,
               suffixIconOnPressed: () {
@@ -54,7 +55,7 @@ class PasswordComponent extends StatelessWidget {
                 }
                 return null;
               },
-              prefixIcon: Icons.password_outlined,
+              prefixIcon: IconlyBroken.password,
               suffixIcon:
                   state.visible ? Icons.visibility_off : Icons.visibility,
               suffixIconOnPressed: () {

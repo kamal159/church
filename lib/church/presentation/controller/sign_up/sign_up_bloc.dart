@@ -11,8 +11,8 @@ import 'package:chruch/core/utils/enums.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../../../core/usecase/base_usecase.dart';
-import '../../../domain/usecases/get_fathers_usecase.dart';
-import '../../../domain/usecases/sign_up_usecase.dart';
+import '../../../domain/usecases/remote_usecase/get_fathers_usecase.dart';
+import '../../../domain/usecases/remote_usecase/sign_up_usecase.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final SignUpUseCase signUpUseCase;
@@ -89,7 +89,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       SignUpUserEvent event, Emitter<SignUpState> emit) async {
     emit(state.copyWith(requestState: RequestState.loading));
     final result = await signUpUseCase(SignUpUseCaseParameters(
-      uid: event.uid,
+      level: event.level,
       name: event.name,
       date: event.date,
       fatherName: event.fatherName,
@@ -103,6 +103,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       position: event.position,
       address: event.address,
       userPath: event.userPath,
+      isFather: false,
+      isAdmin: false,
     ));
     result.fold(
       (l) {
@@ -114,55 +116,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       },
     );
   }
-
-  // static int lastSelectSchool = -1;
-
-  // selectSchool(int index) {
-  //   if (lastSelectSchool == -1) {
-  //     lastSelectSchool = index;
-  //     schoolSelections[index] = true;
-  //   } else if (index != lastSelectSchool) {
-  //     schoolSelections[lastSelectSchool] = false;
-  //     lastSelectSchool = index;
-  //     schoolSelections[index] = true;
-  //   }
-  //   emit(state.copyWith(
-  //     lastSelectSchool: lastSelectSchool,
-  //   ));
-  // }
-  //
-  // selectOtherSchool(int index) {
-  //   if (schoolGradeModel[lastExpandedGrade].isExpanded) {
-  //     schoolGradeModel[lastExpandedGrade].isExpanded = false;
-  //   }
-  //   if (lastSelectSchool != -1) {
-  //     schoolSelections[lastSelectSchool] = false;
-  //     lastSelectSchool = -1;
-  //   }
-  //   schoolGradeModel[index].isExpanded = true;
-  //   lastExpandedGrade = index;
-  //   emit(state.copyWith(
-  //     lastSelectSchool: lastSelectSchool,
-  //     lastExpandedGrade: lastExpandedGrade,
-  //   ));
-  // }
-
-  // static int lastExpandedGrade = 0;
-
-  // changeExpanded(int index, bool isExpanded) {
-  //   schoolGradeModel[lastExpandedGrade].isExpanded = false;
-  //   schoolGradeModel[index].isExpanded = !isExpanded;
-  //   lastExpandedGrade = index;
-  //   if (lastSelectSchool != -1) {
-  //     schoolSelections[lastSelectSchool] = false;
-  //     lastSelectSchool = -1;
-  //   }
-  //   emit(state.copyWith(
-  //     isExpanded: !isExpanded,
-  //     lastExpandedGrade: index,
-  //     lastSelectSchool: -1,
-  //   ));
-  // }
 
   changeVisiblePassword() {
     emit(state.copyWith(visible: !state.visible));
@@ -254,21 +207,19 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     emit(state.copyWith(fatherName: val));
   }
 
-  static int? selectLevel;
+  static int selectLevel = 0;
 
   changeGradeSchool(int level) {
     selectLevel = level;
-    print('schoolGrade.levelCousssnt ${selectLevel}');
 
     emit(state.copyWith(selectLevel: level));
   }
 
-  static String? schoolName;
+  static String schoolName = 'KG';
   static int? selectSchool;
 
   changeNameOfSchool(int index) {
     final schoolGrade = schoolGradeModel[index];
-    print('schoolGrade.levelCount ${selectLevel}');
 
     schoolName = schoolGrade.enNameGrade;
     selectSchool = index;

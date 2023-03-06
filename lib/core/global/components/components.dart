@@ -1,10 +1,7 @@
+import 'package:chruch/core/utils/widget_constance.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:translator/translator.dart';
-
-import '../../../church/data/models/verified_user_model.dart';
-import '../../utils/user_Contstance.dart';
 import '../theme/app_color/app_color_light.dart';
 
 void navigateTo(BuildContext context, Widget screen, {bool until = true}) {
@@ -22,6 +19,7 @@ Widget customButton({
   double? fontSize,
   required String text,
   Widget? widget,
+  bool isLoading = false,
   required void Function()? onTap,
 }) {
   return Padding(
@@ -31,15 +29,19 @@ Widget customButton({
       child: Container(
           height: 55,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: color),
-          child: Center(
-              child: widget ??
-                  Text(text,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(color: Colors.white, fontSize: fontSize)))),
+              borderRadius: BorderRadius.circular(10), color: color),
+          child: !isLoading
+              ? Center(
+                  child: widget ??
+                      Text(text,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(
+                                  color: Colors.white, fontSize: fontSize)))
+              : Center(
+                  child: WidgetConstance.circularProgressIndicator,
+                )),
     ),
   );
 }
@@ -177,37 +179,90 @@ void showBanner(BuildContext context, Widget content, String text) {
   });
 }
 
-
-Future<void> getUserDB() async {
-  final Database db = await openDatabase('church.db');
-  final List<Map<String, Object?>> data = await db.query('user_data');
-  await db.close();
-  final VerifiedUserModel verifiedUserModel = VerifiedUserModel.fromDB(data[0]);
-  UserConstance.uid = verifiedUserModel.uid!;
-  UserConstance.img = verifiedUserModel.img;
-  UserConstance.cover = verifiedUserModel.cover??'';
-  UserConstance.name = verifiedUserModel.name;
-  UserConstance.email = verifiedUserModel.email;
-  UserConstance.phone = verifiedUserModel.phone;
-  UserConstance.password = verifiedUserModel.password;
-  UserConstance.fatherName = verifiedUserModel.fatherName;
-  UserConstance.date = verifiedUserModel.date;
-  UserConstance.bio = verifiedUserModel.bio??'';
-  UserConstance.isMale = verifiedUserModel.isMale;
-  UserConstance.school = verifiedUserModel.school??'';
-  UserConstance.level = verifiedUserModel.level??'';
-  UserConstance.isEmailVerified = verifiedUserModel.isEmailVerified;
-  UserConstance.isServant = verifiedUserModel.isServant;
-  UserConstance.subscribe = verifiedUserModel.subscribe??[];
-  UserConstance.isAdmin = verifiedUserModel.isAdmin;
-  UserConstance.position = verifiedUserModel.position;
-  UserConstance.address = verifiedUserModel.address;
-}
-deleteDB() async {
-  final Database db = await openDatabase('church.db');
-  await db.execute('DROP TABLE IF EXISTS user_data');
-  await db.close();
-  // final databasePath = join(await getDatabasesPath(), 'church.db');
-  // await deleteDatabase(databasePath);
-  print('DONE DROP TABLE');
-}
+// dropDB() async {
+//   final Database db =
+//       await openDatabase(join(await getDatabasesPath(), 'church.db'));
+//   await db.execute('DROP TABLE IF EXISTS user_data');
+//   await db.close();
+//   print('DONE DROP TABLE');
+// }
+//
+// deleteDB() async {
+//   final databasePath = join(await getDatabasesPath(), 'church.db');
+//   await deleteDatabase(databasePath);
+// }
+//
+// Future<void> createTableUserDataBase() async {
+//   final Database db = await openDatabase(
+//       join(await getDatabasesPath(), 'church.db'),
+//       version: 1);
+//   await db.execute('''
+//           CREATE TABLE user_data (
+//             uid TEXT PRIMARY KEY,
+//             name TEXT,
+//             img TEXT,
+//             cover TEXT,
+//             email TEXT,
+//             phone TEXT,
+//             fatherName TEXT,
+//             date TEXT,
+//             bio TEXT,
+//             isMale INTEGER,
+//             school TEXT,
+//             isEmailVerified INTEGER,
+//             isServant INTEGER,
+//             subscribe TEXT,
+//             isAdmin INTEGER,
+//             latitude REAL,
+//             longitude REAL,
+//             address TEXT,
+//             userPath TEXT,
+//             password TEXT)
+//           ''').catchError((e) {});
+//   await db.close();
+// }
+//
+// Future<void> insertUserDataBase(VerifiedUserModel verifiedUserModel) async {
+//   final bool createDB = CacheHelper.getData(key: 'firstDB') ?? true;
+//   if (createDB) {
+//     await createTableUserDataBase();
+//     await CacheHelper.saveData(key: 'firstDB', value: false);
+//     print('done create table db');
+//   }
+//   print('now in the insert function');
+//   final Database db = await openDatabase(
+//       join(await getDatabasesPath(), 'church.db'),
+//       version: 1);
+//   await db.insert('user_data', verifiedUserModel.toDB());
+//   await db.close();
+//   await CacheHelper.saveData(key: 'isUserDataSaved', value: true);
+//   print('done inserted user data');
+// }
+//
+// Future<void> getUserDB() async {
+//   final Database db = await openDatabase(
+//       join(await getDatabasesPath(), 'church.db'),
+//       version: 1);
+//   final List<Map<String, Object?>> data = await db.query('user_data');
+//   await db.close();
+//   final VerifiedUserModel verifiedUserModel = VerifiedUserModel.fromDB(data[0]);
+//   UserConstance.uid = verifiedUserModel.uid!;
+//   UserConstance.img = verifiedUserModel.img;
+//   UserConstance.cover = verifiedUserModel.cover ?? '';
+//   UserConstance.name = verifiedUserModel.name;
+//   UserConstance.email = verifiedUserModel.email;
+//   UserConstance.phone = verifiedUserModel.phone;
+//   UserConstance.password = verifiedUserModel.password;
+//   UserConstance.fatherName = verifiedUserModel.fatherName;
+//   UserConstance.date = verifiedUserModel.date;
+//   UserConstance.bio = verifiedUserModel.bio ?? '';
+//   UserConstance.isMale = verifiedUserModel.isMale;
+//   UserConstance.school = verifiedUserModel.school ?? '';
+//   UserConstance.level = verifiedUserModel.level ?? '';
+//   UserConstance.isEmailVerified = verifiedUserModel.isEmailVerified;
+//   UserConstance.isServant = verifiedUserModel.isServant;
+//   UserConstance.subscribe = verifiedUserModel.subscribe ?? [];
+//   UserConstance.isAdmin = verifiedUserModel.isAdmin;
+//   UserConstance.position = verifiedUserModel.position;
+//   UserConstance.address = verifiedUserModel.address;
+// }

@@ -1,19 +1,13 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
-import 'church/presentation/screens/get_started_screen/get_started_screen.dart';
-import 'package:chruch/church/presentation/screens/layout_screen/layout_screen.dart';
 import 'package:chruch/church/presentation/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
-import 'church/presentation/screens/sign_in_screen/login_screen.dart';
-import 'core/global/components/components.dart';
 import 'core/global/theme/theme_data/theme_data_light.dart';
 import 'core/network/local/cache_helper.dart';
 import 'core/services/sevices_locator.dart';
 import 'core/utils/app_constance.dart';
-import 'core/utils/user_Contstance.dart';
+import 'core/utils/user_constance.dart';
 import 'firebase_options.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 // Future<void> onFirebaseMessageReceived(RemoteMessage message) async {
 //
@@ -83,8 +77,9 @@ Future<void> main() async {
       statusBarIconBrightness: Brightness.light,
     ),
   );
-  UserConstance.isUserDataSaved = CacheHelper.getData(key: 'isUserDataSaved');
-  if (UserConstance.isUserDataSaved??false) await getUserDB();
+
+  UserConstance.isUserDataSaved = CacheHelper.getData(key: 'isUserDataSaved') ?? false;
+  AppConstance.onBoarding = CacheHelper.getData(key: 'onBoarding') ?? true;
   runApp(const MyApp());
 }
 

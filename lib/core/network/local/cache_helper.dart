@@ -23,7 +23,7 @@ class CacheHelper {
     return await sharedPreferences!.setDouble(key, value);
   }
 
-  static dynamic removeData({
+  static Future<void> removeData({
     required String key,
   }) {
     return sharedPreferences!.remove(key);

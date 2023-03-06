@@ -2,6 +2,7 @@ import 'package:chruch/church/presentation/controller/sign_up/sign_up_bloc.dart'
 import 'package:chruch/church/presentation/controller/sign_up/sign_up_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconly/iconly.dart';
 
 import '../../../../../core/global/components/components.dart';
 import '../../../../../core/global/theme/app_color/app_color_light.dart';
@@ -73,7 +74,7 @@ class SelectFatherComponent extends StatelessWidget {
                 onChanged: (val) {
                   SignUpBloc.fatherName = val;
                 },
-                prefixIcon: Icons.person_outline,
+                prefixIcon: IconlyBroken.profile,
               ),
           ],
         );

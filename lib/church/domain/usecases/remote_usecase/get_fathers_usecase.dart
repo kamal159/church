@@ -1,10 +1,11 @@
-import 'package:chruch/church/domain/repository/base_church_repository.dart';
 import 'package:dartz/dartz.dart';
-import '../../../core/error/failure.dart';
-import '../../../core/usecase/base_usecase.dart';
+
+import '../../../../core/error/failure.dart';
+import '../../../../core/usecase/base_usecase.dart';
+import '../../repository/base_remote_church_repository.dart';
 
 class GetFathersUseCase extends BaseUseCase<List<String>, NoParameters> {
-  final BaseChurchRepository baseChurchRepository;
+  final BaseRemoteChurchRepository baseChurchRepository;
 
   GetFathersUseCase(this.baseChurchRepository);
 

@@ -1,5 +1,6 @@
 import 'package:chruch/church/presentation/controller/sign_up/sign_up_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:iconly/iconly.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../core/global/components/components.dart';
@@ -39,7 +40,7 @@ class BirthDayComponent extends StatelessWidget {
           dateInputController.text = SignUpBloc.formattedDate!;
         }
       },
-      prefixIcon: Icons.date_range_outlined,
+      prefixIcon: IconlyBroken.calendar,
     );
   }
   String text(text) => 'برجاء التاكد من $text';

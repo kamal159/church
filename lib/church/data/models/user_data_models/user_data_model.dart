@@ -1,102 +1,81 @@
-import 'package:chruch/church/domain/entities/verified_user.dart';
+import 'package:chruch/church/domain/entities/user_data_entities/user_data_entity.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class VerifiedUserModel extends VerifiedUser {
-  const VerifiedUserModel({
-    required super.img,
+class UserDataModel extends UserData {
+  const UserDataModel({
+    required super.userPath,
+    required super.isFather,
+    required super.isServant,
+    required super.isAdmin,
     required super.uid,
-    super.cover,
     required super.name,
     required super.email,
     required super.phone,
-    required super.password,
     required super.fatherName,
     required super.date,
-    super.bio,
     required super.isMale,
-    required super.school,
-    super.isEmailVerified,
-    required super.isServant,
-    super.subscribe,
-    super.isAdmin,
-    required super.position,
+    required super.img,
+    super.position,
     required super.address,
-    super.userPath,
+    super.cover,
+    super.bio,
     super.level,
+    super.school,
+    super.subscribe,
   });
 
-  factory VerifiedUserModel.fromJson(Map<String, dynamic> json) =>
-      VerifiedUserModel(
+
+
+  factory UserDataModel.fromJson(Map<String, dynamic> json) =>
+      UserDataModel(
         uid: json['uid'],
         img: json['img'],
         cover: json['cover'],
         name: json['name'],
         email: json['email'],
         phone: json['phone'],
-        password: json['password'],
         fatherName: json['fatherName'],
         date: json['date'],
         bio: json['bio'],
         isMale: json['isMale'],
         school: json['school'],
-        isEmailVerified: json['isEmailVerified'],
-        isServant: json['isServant'],
-        isAdmin: json['isAdmin'],
+        isServant: json['isServant']??false,
+        isAdmin: json['isAdmin']??false,
         subscribe: json['subscribe'] != null
             ? List<String>.from(json['subscribe']).map((e) => e).toList()
             : null,
         position: json['position'],
-        address: json['address'],
+        address: json['address'], userPath: '',
+        isFather: false,
+        level: json['level'],
       );
 
 
-factory VerifiedUserModel.fromDB(Map<String, dynamic> json) =>
-      VerifiedUserModel(
+  factory UserDataModel.fromDB(Map<String, dynamic> json) =>
+      UserDataModel(
         uid: json['uid'],
         img: json['img'],
         cover: json['cover'],
         name: json['name'],
         email: json['email'],
         phone: json['phone'],
-        password: json['password'],
         fatherName: json['fatherName'],
         date: json['date'],
         bio: json['bio'],
         isMale: json['isMale'] == 1,
         school: json['school'],
-        isEmailVerified: json['isEmailVerified'] == 1,
         isServant: json['isServant'] == 1,
         isAdmin: json['isAdmin'] == 1,
-        subscribe: json['subscribe'] != null ? List<String>.from(json['subscribe'].split(','))
-            : null,
-        position: GeoPoint(json['latitude'].toDouble(), json['longitude'].toDouble()),
+        subscribe: json['subscribe'] != null ? List<String>.from(json['subscribe'].split(',')) : null,
+        // position: GeoPoint(json['latitude'].toDouble(), json['longitude'].toDouble()),
         address: json['address'],
         userPath: json['userPath'],
+        isFather: json['isFather'] == 1,
+        level: json['level'],
       );
 
-  Map<String, dynamic> toMap() {
-    return {
-      'uid': uid,
-      'img': img,
-      'cover': cover,
-      'name': name,
-      'email': email,
-      'phone': phone,
-      'password': password,
-      'fatherName': fatherName,
-      'date': date,
-      'bio': bio,
-      'isMale': isMale,
-      'school': school,
-      'isEmailVerified': isEmailVerified,
-      'isServant': isServant,
-      'subscribe': subscribe,
-      'isAdmin': isAdmin,
-      'position': position,
-      'address': address,
-      'userPath': userPath,
-    };
-  }
+  @override
+  Map<String, dynamic> toMap();
 
   Map<String, dynamic> toDB() {
     return {
@@ -106,20 +85,17 @@ factory VerifiedUserModel.fromDB(Map<String, dynamic> json) =>
       'name': name,
       'email': email,
       'phone': phone,
-      'password': password,
       'fatherName': fatherName,
       'date': date,
       'bio': bio,
       'isMale': isMale ? 1 : 0,
       'school': school,
-      'isEmailVerified': isEmailVerified ? 1 : 0,
       'isServant': isServant ? 1 : 0,
       'subscribe': subscribe != null ? subscribe!.join(',') : '',
       'isAdmin': isAdmin ? 1 : 0,
-      'latitude': position.latitude,
-      'longitude':position.longitude,
       'address': address,
       'userPath': userPath,
+      'isFather':isFather? 1 : 0,
     };
   }
 }

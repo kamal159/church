@@ -12,14 +12,12 @@ abstract class SignUpEvent extends Equatable {
 class SignUpUserEvent extends SignUpEvent {
   final String? uid;
   final XFile img;
-  final String? cover;
   final String name;
   final String email;
   final String phone;
   final String password;
   final String fatherName;
   final String date;
-  final String? bio;
   final bool isMale;
   final String? school;
   final int? level;
@@ -34,14 +32,12 @@ class SignUpUserEvent extends SignUpEvent {
     required this.address,
     required this.position,
     this.uid,
-    this.cover,
     required this.name,
     required this.email,
     required this.phone,
     required this.password,
     required this.fatherName,
     required this.date,
-    this.bio,
     required this.isMale,
     this.school,
     this.level,
@@ -56,14 +52,12 @@ class SignUpUserEvent extends SignUpEvent {
         address,
         img,
         position,
-        cover,
         name,
         email,
         phone,
         password,
         fatherName,
         date,
-        bio,
         isMale,
         school,
         level,

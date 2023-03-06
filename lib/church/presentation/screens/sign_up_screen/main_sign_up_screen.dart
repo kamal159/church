@@ -3,6 +3,7 @@ import 'package:chruch/core/global/components/components.dart';
 import 'package:chruch/core/global/components/default_login_signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconly/iconly.dart';
 import '../../../../core/global/theme/app_color/app_color_light.dart';
 import '../../../../core/services/sevices_locator.dart';
 import '../../../../core/utils/enums.dart';
@@ -81,7 +82,7 @@ class _MainSignUpScreenState extends State<MainSignUpScreen> {
                           if (!val!.isValidName()) return text('الاسم بالكامل');
                           return null;
                         },
-                        prefixIcon: Icons.edit_outlined),
+                        prefixIcon: IconlyBroken.edit_square),
                     customTextFormField(
                         textDirection: TextDirection.ltr,
                         context: context,
@@ -95,7 +96,7 @@ class _MainSignUpScreenState extends State<MainSignUpScreen> {
                           return null;
                         },
                         onChanged: (val) {},
-                        prefixIcon: Icons.mail_outline),
+                        prefixIcon: IconlyBroken.message),
                     customTextFormField(
                         textDirection: TextDirection.ltr,
                         context: context,
@@ -108,7 +109,7 @@ class _MainSignUpScreenState extends State<MainSignUpScreen> {
                           }
                           return null;
                         },
-                        prefixIcon: Icons.phone_outlined),
+                        prefixIcon: IconlyBroken.call),
                     SelectFatherComponent(),
                     const PasswordComponent(),
                     const BirthDayComponent(),
@@ -123,7 +124,7 @@ class _MainSignUpScreenState extends State<MainSignUpScreen> {
                           }
                           return null;
                         },
-                        prefixIcon: IconConstance.addressOutline),
+                        prefixIcon: IconlyBroken.home),
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -210,7 +211,7 @@ class _MainSignUpScreenState extends State<MainSignUpScreen> {
                             cubit.add(
                               SignUpUserEvent(
                                 level: !SignUpBloc.isServant
-                                    ? SignUpBloc.selectLevel
+                                    ? SignUpBloc.selectLevel + 1
                                     : null,
                                 position: state.position!,
                                 isServant: SignUpBloc.isServant,
@@ -227,7 +228,7 @@ class _MainSignUpScreenState extends State<MainSignUpScreen> {
                                 img: SignUpBloc.image!,
                                 address: addressController.text,
                                 userPath: !SignUpBloc.isServant
-                                    ? '${SignUpBloc.schoolName}/${SignUpBloc.selectLevel! + 1}st'
+                                    ? '${SignUpBloc.schoolName}/${SignUpBloc.selectLevel + 1}st'
                                     : 'servants/all',
                               ),
                             );
